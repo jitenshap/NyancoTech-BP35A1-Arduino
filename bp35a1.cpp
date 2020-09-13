@@ -4,7 +4,7 @@
 #include <WString.h>
 #include "bp35a1.h"
 
-#define BP35A1_DEBUG
+//#define BP35A1_DEBUG
 
 HardwareSerial BP35A1::*_serial;
 char _addr_ipv6[128];

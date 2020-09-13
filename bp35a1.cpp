@@ -4,7 +4,6 @@
 #include <WString.h>
 #include "bp35a1.h"
 
-//Uncomment to debug serial output.
 //#define BP35A1_DEBUG
 
 HardwareSerial BP35A1::*_serial;
@@ -255,7 +254,6 @@ bool BP35A1::get_connecting_status()
 //瞬時電力レスポンスを受信してパース
 long BP35A1::get_and_parse_inst_data()
 {
-    _serial->flush();
     int timeout = 0;
     while(timeout < 110)
     {

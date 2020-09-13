@@ -4,6 +4,7 @@
 #include <WString.h>
 #include "bp35a1.h"
 
+//Uncomment to debug serial output.
 //#define BP35A1_DEBUG
 
 HardwareSerial BP35A1::*_serial;
@@ -26,15 +27,15 @@ void BP35A1::discard_buf()
 bool BP35A1::read_res()
 {
     _serial->flush();  //BP35A1へ送信したコマンドの送信完了を待つ
-    int timeout = 0;
-    while(timeout < 100)
+    int ttimeout = 0;
+    while(ttimeout < 50)
     {
         #ifdef BP35A1_DEBUG
         #endif                
         char tmp[128];
         char * tmp_p = tmp;
         tmp[0] = '\0';
-        long timeout = millis() + 5000;
+        long timeout = millis() + 1000;
         while(_serial->available())
         {
             *tmp_p = _serial->read();       
@@ -75,7 +76,7 @@ bool BP35A1::read_res()
             return true;
         }
         delay(100);
-        timeout ++;
+        ttimeout ++;
     }
     discard_buf();
     #ifdef BP35A1_DEBUG
@@ -256,7 +257,7 @@ long BP35A1::get_and_parse_inst_data()
 {
     _serial->flush();
     int timeout = 0;
-    while(timeout < 50)
+    while(timeout < 110)
     {
         char tmp[512];
         char * tmp_p = tmp;
@@ -286,6 +287,7 @@ long BP35A1::get_and_parse_inst_data()
         {
             #ifdef BP35A1_DEBUG
             Serial.println("get_and_parse_inst_data(): Got UDP Response");
+            Serial.printf("get_and_parse_inst_data(): len = %ld\r\n", strlen(tmp));
             Serial.printf("[%s]\r\n", tmp);
             #endif
             char pwr_char[16];
@@ -336,6 +338,7 @@ long BP35A1::get_power()
         #ifdef BP35A1_DEBUG
         Serial.println("err");
         #endif
+        return -1;
     }
     long power = get_and_parse_inst_data();
     return power;

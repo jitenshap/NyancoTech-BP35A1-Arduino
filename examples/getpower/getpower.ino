@@ -10,8 +10,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial2.begin(115200, SERIAL_8N1, RXD2, TXD2);
-  Serial.println("Hello");
   wisun.begin(&Serial2);
+  Serial.println("Connecting");
   while(!wisun.connect(BID, BPWD))
   {
     Serial.println("Retrying");
@@ -21,6 +21,7 @@ void setup()
 
 void loop() 
 {
-  wisun.get_power();
+  Serial.print(wisun.get_power());
+  Serial.println("[W] now.");
   delay(10000);
 }

@@ -254,8 +254,8 @@ bool BP35A1::get_connecting_status()
 //瞬時電力レスポンスを受信してパース
 long BP35A1::get_and_parse_inst_data()
 {
-    int timeout = 0;
-    while(timeout < 110)
+    int ttimeout = 0;
+    while(ttimeout < 110)
     {
         char tmp[512];
         char * tmp_p = tmp;
@@ -305,7 +305,7 @@ long BP35A1::get_and_parse_inst_data()
             #endif
             return -1;
         }
-        timeout ++;
+        ttimeout ++;
         delay(100);
     }
     discard_buf();
